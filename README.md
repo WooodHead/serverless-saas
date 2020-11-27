@@ -1,6 +1,6 @@
 # Building Serverless SaaS Applications and APIs
 
-Now we will learn how to develop multi-tenanted SaaS API's and applications.
+In this repo we will learn how to develop multi-tenanted SaaS API's and applications.
 
 [What is SaaS? Everything you need to know about Software as a Service](https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference)
 
