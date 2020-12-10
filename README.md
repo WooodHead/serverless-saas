@@ -61,8 +61,19 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [Databases that play nice with your serverless backend](https://medium.com/swlh/databases-that-play-nice-with-your-serverless-backend-13eb7dc1e1c)
 
-
 [Building Serverless SaaS with Lambda layers](https://github.com/aws-samples/aws-serverless-saas-layers)
+
+[Using Amazon SQS in a Multi-Tenant SaaS Solution](https://aws.amazon.com/blogs/apn/using-amazon-sqs-in-a-multi-tenant-saas-solution/)
+
+[SaaS Storage Strategies: Building a Multitenant Storage Model on AWS](https://d0.awsstatic.com/whitepapers/Multi_Tenant_SaaS_Storage_Strategies.pdf)
+
+[Using Condition Keys to Limit Access to CloudWatch Namespaces](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/iam-cw-condition-keys-namespace.html)
+
+[Supporting Multitenancy with Isolated Namespaces](https://docs.aws.amazon.com/quicksight/latest/user/namespaces.html)
+
+[Tenant Isolation: AWS SaaS Factory](https://aws.amazon.com/partners/saas-factory/tenant-isolation/)
+
+[Serverless enterprise-grade multi-tenancy using AWS](https://medium.com/@tarekbecker/serverless-enterprise-grade-multi-tenancy-using-aws-76ff5f4d0a23)
 
 [AWS SaaS Boost](https://aws.amazon.com/partners/saas-boost/)
 
