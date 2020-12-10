@@ -55,6 +55,10 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [AWS re:Invent 2019: Serverless SaaS deep dive: Building serverless SaaS on AWS](https://www.youtube.com/watch?v=egskuX3YYO4)
 
+[Serverless SaaS deep dive: Building serverless SaaS on AWS](https://www.youtube.com/watch?v=egskuX3YYO4)
+
+[SaaS tenant isolation patterns](https://www.youtube.com/watch?v=fuDZq-EspNA)
+
 [Calculating SaaS Cost Per Tenant: A PoC Implementation in an AWS Kubernetes Environment](https://aws.amazon.com/blogs/apn/calculating-saas-cost-per-tenant-a-poc-implementation-in-an-aws-kubernetes-environment/)
 
 [Multi tenant Architecture SaaS Application on AWS](https://www.clickittech.com/saas/multi-tenant-architecture/)
