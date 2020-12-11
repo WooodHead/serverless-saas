@@ -1,4 +1,4 @@
-# Building Serverless SaaS Applications and APIs
+# Building Serverless Multi-Tenant SaaS Applications and APIs
 
 In this repo we will learn how to develop multi-tenanted SaaS API's and applications.
 
