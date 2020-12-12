@@ -81,5 +81,7 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [AWS SaaS Boost](https://aws.amazon.com/partners/saas-boost/)
 
+[Three Database Architectures for a Multi-Tenant Rails-Based SaaS App](https://rubygarage.org/blog/three-database-architectures-for-a-multi-tenant-rails-based-saas-app)
+
 
 
