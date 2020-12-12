@@ -2,15 +2,23 @@
 
 In this repo we will learn how to develop multi-tenanted SaaS API's and applications.
 
+## What is SaaS?
+
 [What is SaaS? Everything you need to know about Software as a Service](https://www.techradar.com/news/what-is-saas)
+
+## What is multi-tenancy?
 
 [What is multi-tenancy?](https://whatis.techtarget.com/definition/multi-tenancy)
 
 [SaaS: Single Tenant vs Multi-Tenant - What's the Difference?](https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference)
 
+## SaaS in the Real World
+
 [Remote Work Has Created A Tipping Point In SaaS](https://aithority.com/saas/remote-work-has-created-a-tipping-point-in-saas/)
 
 [15 Common Software as a Service (SaaS) Examples to Inspire You](https://joshfechter.com/software-service-examples/)
+
+## Serverless SaaS
 
 [Serverless SaaS: The next step in the evolution of SaaS](https://www.ctepl.com/resources/serverless-applications-the-next-step-in-the-evolution-of-saas/)
 
@@ -18,10 +26,23 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [AWS Serverless SaaS](https://aws.amazon.com/partners/saas-factory/serverless-saas/)
 
+[Serverless Meets SaaS: The Ultimate Match](https://www.infoq.com/presentations/servereless-saas)
+
+[Building Serverless SaaS Applications on AWS](https://aws.amazon.com/blogs/apn/building-serverless-saas-applications-on-aws/)
+
+[AWS re:Invent 2018: Architecting Next Generation Serverless SaaS Solutions on AWS](https://www.youtube.com/watch?v=flToi0DX6Po)
+
+[Lambda Wrapper mentioned in the video presentation](https://github.com/nordcloud/lambda-wrapper)
+
+
+## AWS SaaS Factory Program
+
 [AWS SaaS Factory Program](https://aws.amazon.com/partners/saas-factory/)
 
 [AWS Partner Network (APN) Blog](https://aws.amazon.com/blogs/apn/tag/saas-factory/)
 
+
+## SaaS APIs
 
 [APIs are the next big SaaS wave](https://techcrunch.com/2019/09/06/apis-are-the-next-big-saas-wave/)
 
