@@ -32,7 +32,13 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [AWS re:Invent 2018: Architecting Next Generation Serverless SaaS Solutions on AWS](https://www.youtube.com/watch?v=flToi0DX6Po)
 
-[Lambda Wrapper mentioned in the video presentation](https://github.com/nordcloud/lambda-wrapper)
+[Lambda Wrapper mentioned in the above video presentation](https://github.com/nordcloud/lambda-wrapper)
+
+[Building Serverless SaaS Solutions on AWS](https://event.on24.com/wcc/r/2064301/E7C01D72ACEC76182213CF1FD1B5639E)
+
+[AWS re:Invent 2019: Serverless SaaS deep dive: Building serverless SaaS on AWS](https://www.youtube.com/watch?v=egskuX3YYO4)
+
+[API Gateway Lambda authorizers menteiond the above video presentation](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
 
 
 ## AWS SaaS Factory Program
