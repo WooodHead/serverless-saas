@@ -2,7 +2,9 @@
 
 In this repo we will learn how to develop multi-tenanted SaaS API's and applications.
 
-[What is SaaS? Everything you need to know about Software as a Service](https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference)
+[What is SaaS? Everything you need to know about Software as a Service](https://www.techradar.com/news/what-is-saas)
+
+[SaaS: Single Tenant vs Multi-Tenant - What's the Difference?](https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference)
 
 [Remote Work Has Created A Tipping Point In SaaS](https://aithority.com/saas/remote-work-has-created-a-tipping-point-in-saas/)
 
