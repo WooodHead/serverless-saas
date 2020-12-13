@@ -40,6 +40,8 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [API Gateway Lambda authorizers menteiond the above video presentation](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
 
+[SaaS tenant isolation patterns](https://www.youtube.com/watch?v=fuDZq-EspNA)
+
 
 ## AWS SaaS Factory Program
 
