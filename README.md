@@ -12,6 +12,8 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [SaaS: Single Tenant vs Multi-Tenant - What's the Difference?](https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference)
 
+[People’s experiences with approaches to multitenancy](https://slacker.ro/2020/08/14/peoples-experiences-with-approaches-to-multitenancy/)
+
 ## SaaS in the Real World
 
 [Remote Work Has Created A Tipping Point In SaaS](https://aithority.com/saas/remote-work-has-created-a-tipping-point-in-saas/)
@@ -74,6 +76,19 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [3 sets of APIs your SaaS platform needs](https://www.infoworld.com/article/3014636/3-sets-of-api-your-saas-platform-needs.html)
 
+
+
+
+
+## SaaS Storage
+
+[Three Database Architectures for a Multi-Tenant Rails-Based SaaS App](https://rubygarage.org/blog/three-database-architectures-for-a-multi-tenant-rails-based-saas-app)
+
+[Databases that play nice with your serverless backend](https://medium.com/swlh/databases-that-play-nice-with-your-serverless-backend-13eb7dc1e1c)
+
+
+## AWS SaaS
+
 [AWS Serverless SaaS](https://aws.amazon.com/partners/saas-factory/serverless-saas/)
 
 [How can you architect Serverless SaaS Applications on AWS?](https://nordcloud.com/how-can-you-architect-serverless-saas-applications-on-aws/)
@@ -98,7 +113,6 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [Multi tenant Architecture SaaS Application on AWS](https://www.clickittech.com/saas/multi-tenant-architecture/)
 
-[Databases that play nice with your serverless backend](https://medium.com/swlh/databases-that-play-nice-with-your-serverless-backend-13eb7dc1e1c)
 
 [Building Serverless SaaS with Lambda layers](https://github.com/aws-samples/aws-serverless-saas-layers)
 
@@ -114,9 +128,20 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [Serverless enterprise-grade multi-tenancy using AWS](https://medium.com/@tarekbecker/serverless-enterprise-grade-multi-tenancy-using-aws-76ff5f4d0a23)
 
+
 [AWS SaaS Boost](https://aws.amazon.com/partners/saas-boost/)
 
-[Three Database Architectures for a Multi-Tenant Rails-Based SaaS App](https://rubygarage.org/blog/three-database-architectures-for-a-multi-tenant-rails-based-saas-app)
+## Multitenant FaunaDB
+
+[Multi-tenancy Docs](https://docs.fauna.com/fauna/current/tutorials/multitenant.html)
+
+[Learning FQL, Part 3: Database Access Keys](https://fauna.com/blog/learning-fql-part-3-database-access-keys)
+
+[Fauna Serverless Scheduling: Cooperative Scheduling with QoS](https://fauna.com/blog/serverless-scheduling-with-qos-based-multi-tenancy)
+
+[Create a collection in a specific child database](https://stackoverflow.com/questions/60840892/create-a-collection-in-a-specific-child-database)
+
+[Secure Hierarchical Multi-tenancy Patterns](https://www.colabug.com/2018/0508/2864552/)
 
 
 
