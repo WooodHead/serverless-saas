@@ -4,7 +4,7 @@ In this repo we will take a simple To Do App single tenant SaaS and updated it t
 
 Note:
 
-It seems that now we also have serverless containers which do not support layers therefore we also have to use npm for distributing libraries.
+We will add steps for Lambda Containers
 
 Add Steps using FaunaDB Multi-Tenancy:
 
