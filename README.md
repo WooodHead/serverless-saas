@@ -22,6 +22,8 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [3 Proven Ways to Fail With Your SaaS Product](https://medium.com/swlh/3-proven-ways-to-fail-with-your-saas-product-cb99feb0214a)
 
+[How should SaaS Companies Deliver and Price Professional Services](https://techcrunch.com/2020/12/18/how-should-saas-companies-deliver-and-price-professional-services/)
+
 ## Serverless SaaS
 
 [Serverless SaaS: The next step in the evolution of SaaS](https://www.ctepl.com/resources/serverless-applications-the-next-step-in-the-evolution-of-saas/)
