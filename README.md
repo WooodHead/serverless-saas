@@ -18,6 +18,10 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [15 Common Software as a Service (SaaS) Examples to Inspire You](https://joshfechter.com/software-service-examples/)
 
+[Top Software as a Service (SaaS) Companies](https://www.goodfirms.co/cloud-computing-companies/saas)
+
+[3 Proven Ways to Fail With Your SaaS Product](https://medium.com/swlh/3-proven-ways-to-fail-with-your-saas-product-cb99feb0214a)
+
 ## Serverless SaaS
 
 [Serverless SaaS: The next step in the evolution of SaaS](https://www.ctepl.com/resources/serverless-applications-the-next-step-in-the-evolution-of-saas/)
