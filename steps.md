@@ -1,4 +1,10 @@
+In this repo we will take a simple To Do App single tenant SaaS and updated it to multi-tenant architecture using different technologies.
+
 [Add steps from here from here, check solutions directory](https://github.com/aws-samples/aws-serverless-saas-layers)
+
+Note:
+
+It seems that now we also have serverless containers which do not support layers therefore we also have to use npm for distributing libraries.
 
 Add Steps using FaunaDB Multi-Tenancy:
 
