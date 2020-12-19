@@ -1,4 +1,4 @@
-In this repo we will take a simple To Do App single tenant SaaS and updated it to multi-tenant architecture using different technologies.
+In this repo we will take a simple To Do App single tenant SaaS and updated it to multi-tenant architecture using different technologies. All steps should use CDK.
 
 [Add steps from here from here, check solutions directory](https://github.com/aws-samples/aws-serverless-saas-layers)
 
