@@ -10,17 +10,21 @@ step00_todo_single_tenant_serverless
 
 We will build a single tenant serverless Todo SaaS app with AWS Serverless REST backend and a React front end. There will be no signin for the app.
 
+
 step01_todo_single_tenant_auth
 
 We will extend step 00 by adding Cognito authentication. It will still be a single tenant solution.
+
 
 step02_todo_multi_tenant
 
 This step will build on the previous step and implement multi-tenancy in the todo app. Each user will first signup and then signin. Each user can create multiple todo lists. Each list will be unique in the service, so that multiple users can have access to the same list, in the next step. This means that list's unique ID is basically the tenant ID. We will use a single DynamoDB table to store all the todo lists i.e. we will do data partitioning using Pool model (See AWS Lab 4)
 
+
 step03_todo_multi_tenant_multi_user
 
 The owner of the todo list will be able to given access to other users to a todo list.
+
 
 step04_todo_multi_tenant_metrices
 
@@ -45,6 +49,7 @@ https://stackoverflow.com/questions/50574425/get-cognito-user-pool-identity-in-l
 https://stackoverflow.com/questions/51507326/how-do-i-get-a-cognito-token-within-a-lambda-function
 
 
+
 step05_todo_multi_tenant_silo_model
 
 In this step we will partition the data by tenant using FaunaDB multi-tenant features.
@@ -59,6 +64,7 @@ In this step we will partition the data by tenant using FaunaDB multi-tenant fea
 
 [Secure Hierarchical Multi-tenancy Patterns](https://www.colabug.com/2018/0508/2864552/)
 
+
 step06_todo_multi_tenant_event_driven_arch
 
 https://github.com/panacloud-modern-global-apps/full-stack-serverless-cdk#event-driven-architecture
@@ -66,7 +72,16 @@ https://github.com/panacloud-modern-global-apps/full-stack-serverless-cdk#event-
 https://github.com/panacloud-modern-global-apps/full-stack-serverless-cdk/tree/main/step34_event-driven-restaurant-app
 
 
-step07_todo_multi_tenant_lambda_containers
+step07_todo_multi_tenant_graphql
+
+Covert the API from REST to GraphQL
+
+
+step08_todo_multi_tenant_lambda_containers
 
 https://aws.amazon.com/blogs/aws/new-for-aws-lambda-container-image-support/
 
+
+step09_todo_multi_tenant_all_metrices
+
+Upto now we have measured matrices for Lambda functions, now we will also calculate the metrices for cloud front, app sync, dynamodb, and any and all resources we are consuming per tenant. 
