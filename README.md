@@ -99,6 +99,8 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [Transforming Your Monolith to SaaS with AWS SaaS Boost](https://aws.amazon.com/blogs/apn/transforming-your-monolith-to-saas-with-aws-saas-boost/)
 
+[Building SaaS Solutions on AWS](https://github.com/aws-samples/aws-saas-factory-bootcamp)
+
 [How to build a SaaS application](https://medium.com/@IAMVISH/how-to-build-a-saas-application-series-1-5-post-1-overview-cf0b03d6b6ce)
 
 [Calculating Tenant Costs in SaaS Environments](https://aws.amazon.com/blogs/apn/calculating-tenant-costs-in-saas-environments/)
@@ -116,6 +118,8 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 [Calculating SaaS Cost Per Tenant: A PoC Implementation in an AWS Kubernetes Environment](https://aws.amazon.com/blogs/apn/calculating-saas-cost-per-tenant-a-poc-implementation-in-an-aws-kubernetes-environment/)
 
 [Multi tenant Architecture SaaS Application on AWS](https://www.clickittech.com/saas/multi-tenant-architecture/)
+
+
 
 
 [Building Serverless SaaS with Lambda layers](https://github.com/aws-samples/aws-serverless-saas-layers)
