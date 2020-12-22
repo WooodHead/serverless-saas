@@ -97,6 +97,8 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [SaaS Solutions on AWS](https://d0.awsstatic.com/whitepapers/saas-solutions-on-aws-final.pdf)
 
+[Transforming Your Monolith to SaaS with AWS SaaS Boost](https://aws.amazon.com/blogs/apn/transforming-your-monolith-to-saas-with-aws-saas-boost/)
+
 [How to build a SaaS application](https://medium.com/@IAMVISH/how-to-build-a-saas-application-series-1-5-post-1-overview-cf0b03d6b6ce)
 
 [Calculating Tenant Costs in SaaS Environments](https://aws.amazon.com/blogs/apn/calculating-tenant-costs-in-saas-environments/)
