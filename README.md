@@ -51,7 +51,9 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 [SaaS tenant isolation patterns](https://www.youtube.com/watch?v=fuDZq-EspNA)
 
 
-## AWS SaaS Factory Program
+## AWS SaaS Factory and Partner Program
+
+[AWS re:Invent 2020 - AWS Partner Keynote](https://www.youtube.com/watch?v=q-eswgDDi4o)
 
 [AWS SaaS Factory Program](https://aws.amazon.com/partners/saas-factory/)
 
