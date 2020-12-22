@@ -124,13 +124,10 @@ export default function Home() {
     fetchTodos()
   }, [])
 
-  console.log(user);
-
   return (
     authState === AuthState.SignedIn && user ? (
         <div className="App">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
-                <h3>Logged in User: {user.username}</h3>
                 <button onClick={() => { Auth.signOut() }} >sign out</button>
             </div>
             {
