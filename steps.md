@@ -85,3 +85,19 @@ https://aws.amazon.com/blogs/aws/new-for-aws-lambda-container-image-support/
 step09_todo_multi_tenant_all_metrices
 
 Upto now we have measured matrices for Lambda functions, now we will also calculate the metrices for cloud front, app sync, dynamodb, and any and all resources we are consuming per tenant. 
+
+step10_todo_multi_tenant_with_timestream_grafana
+
+Use AWS Timestream to store observability and multi-tenancy data and visualise it using Grafana
+
+step11_todo_multi_tenant_lambda_extensions
+
+Using custom Lambda extensions collect observability and multi-tenant data
+
+https://aws.amazon.com/blogs/compute/introducing-aws-lambda-extensions-in-preview/
+
+https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html
+
+
+
+
