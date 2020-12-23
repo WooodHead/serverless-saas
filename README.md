@@ -178,6 +178,13 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 [Grafana’s AWS Partnership Portends Better Performance and a Potential Boon in Adoption](https://thenewstack.io/grafanas-aws-partnership-portends-better-performance-and-a-potential-boon-in-adoption/)
 
 
+## Lambda Extensions
+
+[Introduction](https://aws.amazon.com/blogs/compute/introducing-aws-lambda-extensions-in-preview/)
+
+[Custom Extensions](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html)
+
+
 ## Multitenant FaunaDB
 
 [Multi-tenancy Docs](https://docs.fauna.com/fauna/current/tutorials/multitenant.html)
