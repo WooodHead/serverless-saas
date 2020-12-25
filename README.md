@@ -188,9 +188,21 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 ## Lambda Extensions
 
+[What are AWS Lambda Extensions and How It will Foster Serverless?](https://blog.thundra.io/what-are-aws-lambda-extensions-and-how-it-will-foster-serverless)
+
+[AWS Lambda Extensions: What are they and why do they matter](https://lumigo.io/blog/aws-lambda-extensions-what-are-they-and-why-do-they-matter/)
+
 [Introduction](https://aws.amazon.com/blogs/compute/introducing-aws-lambda-extensions-in-preview/)
 
 [Custom Extensions](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html)
+
+[Building an AWS Lambda extension with Rust](Building an AWS Lambda extension with Rust](https://dev.to/aws-builders/building-an-aws-lambda-extension-with-rust-3p81)
+
+[Building an AWS Lambda extension with Rust](https://dormoshe.io/trending-news/building-an-aws-lambda-extension-with-rust-3p81-16283)
+
+[Rust Programming Language Book](https://doc.rust-lang.org/book/)
+
+
 
 
 ## Multitenant FaunaDB
