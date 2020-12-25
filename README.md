@@ -141,6 +141,14 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 ## AWS Multi-Tenant Coding
 
+### JWT Tokens
+
+[JWT Token Introduction](https://jwt.io/introduction)
+
+[JWT Authentication Tutorial - Node.js](https://www.youtube.com/watch?v=mbsmsi7l3r4)
+
+[Using Tokens with User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html)
+
 ### Building SaaS Solutions on AWS
 
 [Tenant Onboarding](https://github.com/aws-samples/aws-saas-factory-bootcamp/blob/master/Lab1.md)
