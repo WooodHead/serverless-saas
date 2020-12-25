@@ -204,7 +204,7 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [Example of Usage of a Extension](https://docs.lumigo.io/docs/lambda-extensions)
 
-
+[Working with Lambda layers and extensions in container images](https://aws.amazon.com/blogs/compute/working-with-lambda-layers-and-extensions-in-container-images/)
 
 
 ## Multitenant FaunaDB
