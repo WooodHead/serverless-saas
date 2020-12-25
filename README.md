@@ -202,6 +202,8 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [Rust Programming Language Book](https://doc.rust-lang.org/book/)
 
+[Example of Usage of a Extension](https://docs.lumigo.io/docs/lambda-extensions)
+
 
 
 
