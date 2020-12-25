@@ -196,6 +196,10 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [Custom Extensions](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html)
 
+[AWS Sample code for Extensions including with Node.js](https://github.com/aws-samples/aws-lambda-extensions)
+
+[Building Extensions for AWS Lambda](https://aws.amazon.com/blogs/compute/building-extensions-for-aws-lambda-in-preview/)
+
 [Building an AWS Lambda extension with Rust](Building an AWS Lambda extension with Rust](https://dev.to/aws-builders/building-an-aws-lambda-extension-with-rust-3p81)
 
 [Building an AWS Lambda extension with Rust](https://dormoshe.io/trending-news/building-an-aws-lambda-extension-with-rust-3p81-16283)
