@@ -30,6 +30,10 @@ export class CdkStack extends cdk.Stack {
 
     new apigw.LambdaRestApi(this, "TodoApiEndpoint", {
       handler: todosLambda,
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigw.Cors.ALL_ORIGINS,
+        allowMethods: apigw.Cors.ALL_METHODS // this is also the default
+      }
     });
 
   }

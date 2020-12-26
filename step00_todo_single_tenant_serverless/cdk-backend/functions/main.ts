@@ -14,7 +14,10 @@ exports.handler = async (event: any) => {
             const todos = await getTodos();
             return {
                 statusCode: 200,
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
                 body: JSON.stringify(todos)
             };
         }
@@ -22,22 +25,31 @@ exports.handler = async (event: any) => {
             const todo = await addTodo(body);
             return {
                 statusCode: 200,
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
                 body: JSON.stringify(todo)
             };
         }
-        else if(method === "DELETE" && requestName === "deleteTodo"){
+        else if(method === "POST" && requestName === "deleteTodo"){
             await deleteTodo(body.id);
             return {
                 statusCode: 200,
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
                 body: JSON.stringify('true')
             };
         }
 
         return {
             statusCode: 400,
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
             body: 'Invalid Method or Request'
         };
 
@@ -45,7 +57,10 @@ exports.handler = async (event: any) => {
     catch(err){
         return {
             statusCode: 400,
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
             body: JSON.stringify(err)
         };
     }

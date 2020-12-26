@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react"
 import { API } from "aws-amplify"
 import shortid from "shortid"
 const styles = require("./index.module.css")
+import axios from 'axios';
 
 interface todo {
   title: string
@@ -9,56 +10,51 @@ interface todo {
   done: boolean
 }
 
-interface incomingData {
-  data: {
-    getTodos: todo[]
-  }
-}
+
 
 export default function Home() {
-  const [loading, setLoading] = useState(true)
-  const [todoData, setTodoData] = useState<incomingData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [todoData, setTodoData] = useState([])
   const todoTitleRef = useRef<any>("")
 
-  const getTodos = /* GraphQL */ `
-    query GetTodos {
-      getTodos {
-        id
-        title
-        done
-      }
-    }
-  `
+  // const getTodos = /* GraphQL */ `
+  //   query GetTodos {
+  //     getTodos {
+  //       id
+  //       title
+  //       done
+  //     }
+  //   }
+  // `
 
-  const addTodo = /* GraphQL */ `
-    mutation AddTodo($todo: TodoInput!) {
-      addTodo(todo: $todo) {
-        id
-        title
-        done
-      }
-    }
-  `
+  // const addTodo = /* GraphQL */ `
+  //   mutation AddTodo($todo: TodoInput!) {
+  //     addTodo(todo: $todo) {
+  //       id
+  //       title
+  //       done
+  //     }
+  //   }
+  // `
 
-  const deleteTodo = /* GraphQL */ `
-    mutation DeleteTodo($todoId: String!) {
-      deleteTodo(todoId: $todoId)
-    }
-  `
+  // const deleteTodo = /* GraphQL */ `
+  //   mutation DeleteTodo($todoId: String!) {
+  //     deleteTodo(todoId: $todoId)
+  //   }
+  // `
 
-  const addTodoMutation = async () => {
+  const URL = "https://jud58hc4n2.execute-api.us-east-2.amazonaws.com/prod";
+
+  const addTodo = async () => {
     try {
       const todo = {
         id: shortid.generate(),
         title: todoTitleRef.current.value,
         done: false,
       }
-      const data = await API.graphql({
-        query: addTodo,
-        variables: {
-          todo: todo,
-        },
-      })
+
+      const data = await axios.post(`${URL}/addTodo`, todo)
+
       todoTitleRef.current.value = ""
       fetchTodos()
     } catch (e) {
@@ -67,26 +63,24 @@ export default function Home() {
   }
 
   const fetchTodos = async () => {
+    setLoading(true)
     try {
-      const data = await API.graphql({
-        query: getTodos,
-      })
-      setTodoData(data as incomingData)
+      const data = await axios.get(`${URL}/getTodos`)
+      console.log(data);
+      setTodoData(data.data)
       setLoading(false)
     } catch (e) {
       console.log(e)
+      setLoading(false)
     }
   }
 
   const deleteTodoMutation = async (id: string) => {
     try {
-      const data = await API.graphql({
-        query: deleteTodo,
-        variables: {
-          todoId: id,
-        },
+      const data = await axios.post(`${URL}/deleteTodo`, {
+        id: id
       })
-
+      console.log(data);
       fetchTodos()
     } catch (e) {
       console.log(e)
@@ -107,9 +101,9 @@ export default function Home() {
             Todo:
             <input ref={todoTitleRef} />
           </label>
-          <button onClick={() => addTodoMutation()}>Create Todo</button>
-          {todoData.data &&
-            todoData.data.getTodos.map((item, ind) => (
+          <button onClick={addTodo}>Create Todo</button>
+          {todoData &&
+            todoData.map((item, ind) => (
               <div style={{ marginLeft: "1rem", marginTop: "2rem" }} key={ind}>
                 <span className={styles.todoInput}> {item.title} </span>
                 <button onClick={() => deleteTodoMutation(item.id)}>
