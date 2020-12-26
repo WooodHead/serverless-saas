@@ -43,7 +43,7 @@ export default function Home() {
   //   }
   // `
 
-  const URL = "https://jud58hc4n2.execute-api.us-east-2.amazonaws.com/prod";
+  const URL = "https://example.execute-api.us-east-2.amazonaws.com/prod";
 
   const addTodo = async () => {
     try {
