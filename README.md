@@ -139,6 +139,78 @@ In this repo we will learn how to develop multi-tenanted SaaS API's and applicat
 
 [AWS SaaS Boost](https://aws.amazon.com/partners/saas-boost/)
 
+## AWS Multi-Tenant Coding
+
+### JWT Tokens
+
+[JWT Token Introduction](https://jwt.io/introduction)
+
+[JWT Authentication Tutorial - Node.js](https://www.youtube.com/watch?v=mbsmsi7l3r4)
+
+[Using Tokens with User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html)
+
+### Building SaaS Solutions on AWS
+
+[Tenant Onboarding](https://github.com/aws-samples/aws-saas-factory-bootcamp/blob/master/Lab1.md)
+
+[Building Multi-Tenant Microservices](https://github.com/aws-samples/aws-saas-factory-bootcamp/blob/master/Lab2.md)
+
+[Isolating Tenant Data](https://github.com/aws-samples/aws-saas-factory-bootcamp/blob/master/Lab3.md)
+
+### Building Serverless SaaS with Lambda layers
+
+[Starting with a single-tenant serverless solution Theory](https://github.com/aws-samples/aws-serverless-saas-layers/blob/master/Lab1/README.md)
+
+[Starting with a single-tenant serverless solution Code Solution](https://github.com/aws-samples/aws-serverless-saas-layers/tree/master/Solution/Lab1)
+
+[Code re-usability and multi-tenancy using Lambda Layers Theory](https://github.com/aws-samples/aws-serverless-saas-layers/blob/master/Lab2/README.md)
+
+[Code re-usability and multi-tenancy using Lambda Layers Coding Solution](https://github.com/aws-samples/aws-serverless-saas-layers/tree/master/Solution/Lab2)
+
+[Collect metrices using a metrics manager using Lambda Layers Theory](https://github.com/aws-samples/aws-serverless-saas-layers/blob/master/Lab3/README.md)
+
+[Collect metrices using a metrics manager using Lambda Layers Coding Solution](https://github.com/aws-samples/aws-serverless-saas-layers/tree/master/Solution/Lab3)
+
+[Data partitioning using Silo and Pool model Theory](https://github.com/aws-samples/aws-serverless-saas-layers/blob/master/Lab4/README.md)
+
+[Data partitioning using Silo and Pool model Coding Solution](https://github.com/aws-samples/aws-serverless-saas-layers/tree/master/Solution/Lab4)
+
+## Time Series Database and Visualization
+
+[AWS TimeStream](https://aws.amazon.com/timestream/)
+
+[Grafana & Observability](https://grafana.com/)
+
+[Visualize Data with Amazon Timestream & Grafana](https://www.sufle.io/blog/data-visualization-with-amazon-timestream-and-grafana)
+
+[Grafana’s AWS Partnership Portends Better Performance and a Potential Boon in Adoption](https://thenewstack.io/grafanas-aws-partnership-portends-better-performance-and-a-potential-boon-in-adoption/)
+
+
+## Lambda Extensions
+
+[What are AWS Lambda Extensions and How It will Foster Serverless?](https://blog.thundra.io/what-are-aws-lambda-extensions-and-how-it-will-foster-serverless)
+
+[AWS Lambda Extensions: What are they and why do they matter](https://lumigo.io/blog/aws-lambda-extensions-what-are-they-and-why-do-they-matter/)
+
+[Introduction](https://aws.amazon.com/blogs/compute/introducing-aws-lambda-extensions-in-preview/)
+
+[Custom Extensions](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-extensions-api.html)
+
+[AWS Sample code for Extensions including with Node.js](https://github.com/aws-samples/aws-lambda-extensions)
+
+[Building Extensions for AWS Lambda](https://aws.amazon.com/blogs/compute/building-extensions-for-aws-lambda-in-preview/)
+
+[Building an AWS Lambda extension with Rust](Building an AWS Lambda extension with Rust](https://dev.to/aws-builders/building-an-aws-lambda-extension-with-rust-3p81)
+
+[Building an AWS Lambda extension with Rust](https://dormoshe.io/trending-news/building-an-aws-lambda-extension-with-rust-3p81-16283)
+
+[Rust Programming Language Book](https://doc.rust-lang.org/book/)
+
+[Example of Usage of a Extension](https://docs.lumigo.io/docs/lambda-extensions)
+
+[Working with Lambda layers and extensions in container images](https://aws.amazon.com/blogs/compute/working-with-lambda-layers-and-extensions-in-container-images/)
+
+
 ## Multitenant FaunaDB
 
 [Multi-tenancy Docs](https://docs.fauna.com/fauna/current/tutorials/multitenant.html)
