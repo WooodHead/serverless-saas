@@ -39,61 +39,13 @@ export class Step01TodoSingleTenantAuthStack extends cdk.Stack {
       userPool
     });
 
-    const identityPool = new cognito.CfnIdentityPool(this, "IdentityPool", {
-      allowUnauthenticatedIdentities: false, // Don't allow unathenticated users
-      cognitoIdentityProviders: [
-        {
-          clientId: userPoolClient.userPoolClientId,
-          providerName: userPool.userPoolProviderName,
-        },
-      ],
-    });
-
-    const role = new iam.Role(this, "CognitoDefaultAuthenticatedRole", {
-      assumedBy: new iam.FederatedPrincipal(
-        "cognito-identity.amazonaws.com",
-        {
-          StringEquals: {
-            "cognito-identity.amazonaws.com:aud": identityPool.ref,
-          },
-          "ForAnyValue:StringLike": {
-            "cognito-identity.amazonaws.com:amr": "authenticated",
-          },
-        },
-        "sts:AssumeRoleWithWebIdentity"
-      ),
-    });
-
-    role.addToPolicy(
-      new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: [
-            "mobileanalytics:PutEvents",
-            "cognito-sync:*",
-            "cognito-identity:*",
-          ],
-          resources: ["*"],
-      })
-  );
-  
-  //   ///Attach particular role to identity pool
-    new cognito.CfnIdentityPoolRoleAttachment(
-        this,
-        "IdentityPoolRoleAttachment",
-        {
-          identityPoolId: identityPool.ref,
-          roles: { authenticated: role.roleArn },
-        }
-    );
-
-
     new cdk.CfnOutput(this, "UserPoolId", {
       value: userPool.userPoolId
     });
 
-    new cdk.CfnOutput(this, "IdentityPoolId", {
-      value: identityPool.ref,
-    });
+    // new cdk.CfnOutput(this, "IdentityPoolId", {
+    //   value: identityPool.ref,
+    // });
 
     new cdk.CfnOutput(this, "UserPoolClientId", {
       value: userPoolClient.userPoolClientId
@@ -160,17 +112,6 @@ export class Step01TodoSingleTenantAuthStack extends cdk.Stack {
         authorizerId: authorizer.ref
       } 
     })
-
-    role.addToPolicy(
-      // IAM policy granting users permission to a specific folder in the S3 bucket
-      new iam.PolicyStatement({
-        actions: ["execute-api:Invoke"],
-        effect: iam.Effect.ALLOW,
-        resources: [
-          `arn:aws:execute-api:us-east-2:*:${api.restApiId}/*/*/*`
-        ],
-      })
-    );
 
   }
 }
