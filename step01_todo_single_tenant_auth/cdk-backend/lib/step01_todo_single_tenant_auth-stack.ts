@@ -3,6 +3,8 @@ import * as appsync from "@aws-cdk/aws-appsync";
 import * as ddb from "@aws-cdk/aws-dynamodb";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as cognito from "@aws-cdk/aws-cognito";
+import * as apigw from "@aws-cdk/aws-apigateway";
+import * as iam from "@aws-cdk/aws-iam";
 
 export class Step01TodoSingleTenantAuthStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -37,51 +39,66 @@ export class Step01TodoSingleTenantAuthStack extends cdk.Stack {
       userPool
     });
 
+    const identityPool = new cognito.CfnIdentityPool(this, "IdentityPool", {
+      allowUnauthenticatedIdentities: false, // Don't allow unathenticated users
+      cognitoIdentityProviders: [
+        {
+          clientId: userPoolClient.userPoolClientId,
+          providerName: userPool.userPoolProviderName,
+        },
+      ],
+    });
+
+    const role = new iam.Role(this, "CognitoDefaultAuthenticatedRole", {
+      assumedBy: new iam.FederatedPrincipal(
+        "cognito-identity.amazonaws.com",
+        {
+          StringEquals: {
+            "cognito-identity.amazonaws.com:aud": identityPool.ref,
+          },
+          "ForAnyValue:StringLike": {
+            "cognito-identity.amazonaws.com:amr": "authenticated",
+          },
+        },
+        "sts:AssumeRoleWithWebIdentity"
+      ),
+    });
+
+    role.addToPolicy(
+      new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            "mobileanalytics:PutEvents",
+            "cognito-sync:*",
+            "cognito-identity:*",
+          ],
+          resources: ["*"],
+      })
+  );
+  
+  //   ///Attach particular role to identity pool
+    new cognito.CfnIdentityPoolRoleAttachment(
+        this,
+        "IdentityPoolRoleAttachment",
+        {
+          identityPoolId: identityPool.ref,
+          roles: { authenticated: role.roleArn },
+        }
+    );
+
+
     new cdk.CfnOutput(this, "UserPoolId", {
       value: userPool.userPoolId
+    });
+
+    new cdk.CfnOutput(this, "IdentityPoolId", {
+      value: identityPool.ref,
     });
 
     new cdk.CfnOutput(this, "UserPoolClientId", {
       value: userPoolClient.userPoolClientId
     });
 
-
-    const api = new appsync.GraphqlApi(this, "Api", {
-      name: "cdk-todos-appsync-api",
-      schema: appsync.Schema.fromAsset("graphql/schema.graphql"),
-      authorizationConfig: {
-        defaultAuthorization: {
-          authorizationType: appsync.AuthorizationType.USER_POOL,
-          userPoolConfig: {
-            userPool
-          },
-        },
-      },
-      xrayEnabled: true,
-    });
-
-    const todosLambda = new lambda.Function(this, "AppSyncNotesHandler", {
-      runtime: lambda.Runtime.NODEJS_12_X,
-      handler: "main.handler",
-      code: lambda.Code.fromAsset("functions"),
-      memorySize: 1024,
-    });
-    const lambdaDs = api.addLambdaDataSource("lambdaDatasource", todosLambda);
-
-    lambdaDs.createResolver({
-      typeName: "Query",
-      fieldName: "getTodos",
-    });
-
-    lambdaDs.createResolver({
-      typeName: "Mutation",
-      fieldName: "addTodo",
-    });
-
-    lambdaDs.createResolver({
-      typeName: "Mutation",
-      fieldName: "deleteTodo",
-    });
 
     const todosTable = new ddb.Table(this, "CDKTodosTable", {
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
@@ -90,22 +107,70 @@ export class Step01TodoSingleTenantAuthStack extends cdk.Stack {
         type: ddb.AttributeType.STRING,
       },
     });
+
+    const todosLambda = new lambda.Function(this, "TodoApiHandler", {
+      runtime: lambda.Runtime.NODEJS_12_X,
+      handler: "main.handler",
+      code: lambda.Code.fromAsset("functions"),
+      memorySize: 1024,
+      environment: {
+        TODOS_TABLE: todosTable.tableName
+      }
+    });
+
     todosTable.grantFullAccess(todosLambda);
-    todosLambda.addEnvironment("TODOS_TABLE", todosTable.tableName);
 
-    // Prints out the AppSync GraphQL endpoint to the terminal
-    new cdk.CfnOutput(this, "GraphQLAPIURL", {
-      value: api.graphqlUrl,
+    const api = new apigw.LambdaRestApi(this, "TodoApiEndpoint", {
+      handler: todosLambda,
+      proxy: false,
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigw.Cors.ALL_ORIGINS,
+        allowMethods: apigw.Cors.ALL_METHODS // this is also the default
+      },
     });
 
-    // Prints out the AppSync GraphQL API key to the terminal
-    new cdk.CfnOutput(this, "GraphQLAPIKey", {
-      value: api.apiKey || "",
-    });
+    const authorizer = new apigw.CfnAuthorizer(this, 'cfnAuth', {
+      restApiId: api.restApiId,
+      name: 'TodoAPIAuthorizer',
+      type: 'COGNITO_USER_POOLS',
+      identitySource: 'method.request.header.Authorization',
+      providerArns: [userPool.userPoolArn],
+    })
 
-    // Prints out the stack region to the terminal
-    new cdk.CfnOutput(this, "Stack Region", {
-      value: this.region,
-    });
+    const getTodos = api.root.addResource('getTodos');
+    getTodos.addMethod('GET', new apigw.LambdaIntegration(todosLambda), {
+      authorizationType: apigw.AuthorizationType.COGNITO,
+      authorizer: {
+        authorizerId: authorizer.ref
+      } 
+    })
+
+    const addTodo = api.root.addResource('addTodo');
+    addTodo.addMethod('POST', new apigw.LambdaIntegration(todosLambda), {
+      authorizationType: apigw.AuthorizationType.COGNITO,
+      authorizer: {
+        authorizerId: authorizer.ref
+      } 
+    })
+
+    const deleteTodo = api.root.addResource('deleteTodo');
+    deleteTodo.addMethod('POST', new apigw.LambdaIntegration(todosLambda), {
+      authorizationType: apigw.AuthorizationType.COGNITO,
+      authorizer: {
+        authorizerId: authorizer.ref
+      } 
+    })
+
+    role.addToPolicy(
+      // IAM policy granting users permission to a specific folder in the S3 bucket
+      new iam.PolicyStatement({
+        actions: ["execute-api:Invoke"],
+        effect: iam.Effect.ALLOW,
+        resources: [
+          `arn:aws:execute-api:us-east-2:*:${api.restApiId}/*/*/*`
+        ],
+      })
+    );
+
   }
 }

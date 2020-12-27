@@ -4,6 +4,7 @@ import shortid from "shortid"
 const styles = require("./index.module.css")
 import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange, CognitoUserInterface } from '@aws-amplify/ui-components';
+import axios from 'axios';
 
 interface todo {
   title: string
@@ -34,51 +35,26 @@ export interface CognitoUser extends CognitoUserInterface {
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
-  const [todoData, setTodoData] = useState<incomingData | null>(null)
+  const [todoData, setTodoData] = useState([])
   const todoTitleRef = useRef<any>("");
   const [authState, setAuthState] = useState<AuthState>();
   const [user, setUser] = useState<CognitoUser>();
   const userGroup = user?.signInUserSession?.accessToken?.payload?.['cognito:groups'];
 
-  const getTodos = /* GraphQL */ `
-    query GetTodos {
-      getTodos {
-        id
-        title
-        done
-      }
-    }
-  `
+  const URL = "https://example.execute-api.us-east-2.amazonaws.com/prod";
 
-  const addTodo = /* GraphQL */ `
-    mutation AddTodo($todo: TodoInput!) {
-      addTodo(todo: $todo) {
-        id
-        title
-        done
-      }
-    }
-  `
-
-  const deleteTodo = /* GraphQL */ `
-    mutation DeleteTodo($todoId: String!) {
-      deleteTodo(todoId: $todoId)
-    }
-  `
-
-  const addTodoMutation = async () => {
+  const addTodo = async () => {
     try {
       const todo = {
         id: shortid.generate(),
         title: todoTitleRef.current.value,
         done: false,
       }
-      const data = await API.graphql({
-        query: addTodo,
-        variables: {
-          todo: todo,
-        },
+
+      const data = await axios.post(`${URL}/addTodo`, todo, {
+        headers: {'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`}
       })
+
       todoTitleRef.current.value = ""
       fetchTodos()
     } catch (e) {
@@ -87,28 +63,26 @@ export default function Home() {
   }
 
   const fetchTodos = async () => {
+    setLoading(true)
     try {
-      console.log('fetch')
-      const data = await API.graphql({
-        query: getTodos,
+      const data = await axios.get(`${URL}/getTodos`, {
+        headers: {'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`}
       })
-      console.log(data)
-      setTodoData(data as incomingData)
+      console.log(data);
+      setTodoData(data.data)
       setLoading(false)
     } catch (e) {
       console.log(e)
+      setLoading(false)
     }
   }
 
   const deleteTodoMutation = async (id: string) => {
     try {
-      const data = await API.graphql({
-        query: deleteTodo,
-        variables: {
-          todoId: id,
-        },
+      const data = await axios.post(`${URL}/deleteTodo`, {id: id}, {
+        headers: {'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`}
       })
-
+      console.log(data);
       fetchTodos()
     } catch (e) {
       console.log(e)
@@ -121,7 +95,7 @@ export default function Home() {
       setUser(authData as CognitoUser)
       fetchTodos()
     });
-    fetchTodos()
+    // fetchTodos()
   }, [])
 
   return (
@@ -142,9 +116,9 @@ export default function Home() {
                         Todo:
                         <input ref={todoTitleRef} />
                       </label>
-                      <button onClick={() => addTodoMutation()}>Create Todo</button>
-                      {todoData.data &&
-                        todoData.data.getTodos.map((item, ind) => (
+                      <button onClick={addTodo}>Create Todo</button>
+                      {todoData &&
+                        todoData.map((item, ind) => (
                           <div style={{ marginLeft: "1rem", marginTop: "2rem" }} key={ind}>
                             <span className={styles.todoInput}> {item.title} </span>
                             <button onClick={() => deleteTodoMutation(item.id)}>
@@ -166,16 +140,16 @@ export default function Home() {
                         Todo:
                         <input ref={todoTitleRef} />
                       </label>
-                      <button onClick={() => addTodoMutation()}>Create Todo</button>
-                      {todoData.data &&
-                        todoData.data.getTodos.map((item, ind) => (
-                          <div style={{ marginLeft: "1rem", marginTop: "2rem" }} key={ind}>
-                            <span className={styles.todoInput}> {item.title} </span>
-                            <button onClick={() => deleteTodoMutation(item.id)}>
-                              Delete
-                            </button>
-                          </div>
-                        ))}
+                      <button onClick={addTodo}>Create Todo</button>
+                        {todoData &&
+                          todoData.map((item, ind) => (
+                            <div style={{ marginLeft: "1rem", marginTop: "2rem" }} key={ind}>
+                              <span className={styles.todoInput}> {item.title} </span>
+                              <button onClick={() => deleteTodoMutation(item.id)}>
+                                Delete
+                              </button>
+                            </div>
+                          ))}
                     </div>
                 )}
               </div>

@@ -17,32 +17,6 @@ export default function Home() {
   const [todoData, setTodoData] = useState([])
   const todoTitleRef = useRef<any>("")
 
-  // const getTodos = /* GraphQL */ `
-  //   query GetTodos {
-  //     getTodos {
-  //       id
-  //       title
-  //       done
-  //     }
-  //   }
-  // `
-
-  // const addTodo = /* GraphQL */ `
-  //   mutation AddTodo($todo: TodoInput!) {
-  //     addTodo(todo: $todo) {
-  //       id
-  //       title
-  //       done
-  //     }
-  //   }
-  // `
-
-  // const deleteTodo = /* GraphQL */ `
-  //   mutation DeleteTodo($todoId: String!) {
-  //     deleteTodo(todoId: $todoId)
-  //   }
-  // `
-
   const URL = "https://example.execute-api.us-east-2.amazonaws.com/prod";
 
   const addTodo = async () => {
