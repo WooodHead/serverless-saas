@@ -1,6 +1,6 @@
  const endpoints = {
-    URLTenantOnboarding : "https://12op4c5r98.execute-api.us-east-1.amazonaws.com/prod",
-    URLTodos :"https://j1w3mf6f8h.execute-api.us-east-1.amazonaws.com/prod/"
+    URLTenantOnboarding : "ENTER_YOUR_TENANT_ONBOARDING_URL",
+    URLTodos :"ENTER_YOUR_TODO_URL"
 
 }   
 

@@ -1,33 +1,30 @@
-import * as AWS from "aws-sdk";
+var AWS = require('aws-sdk');
 
-export async function handler(event: any): Promise<any> {
-  console.log(`sendMessage ${JSON.stringify(event)}`);
+exports.publish = async (input: string) => {
 
-  const endpoint = process.env.ENDPOINT
-
+  const endpoint = process.env.WEBSOCKET_ENDPOINT
   const apiGateway = new AWS.ApiGatewayManagementApi({ endpoint });
-
   const client = new AWS.DynamoDB.DocumentClient();
 
   const result = await client
-    .scan({ TableName: process.env.TABLE_NAME || "" })
+    .scan({ TableName: process.env.WEBSOCKET_TABLE || "" })
     .promise();
 
   for (const data of result.Items ?? []) {
-    const  params  =  {
-      Data : "Image uploaded" ,
+    const params = {
+      Data: input,
       ConnectionId: data.connectionId,
     };
 
     try {
-      await  apiGateway . postToConnection ( params ) . promise ( ) ;
+      await apiGateway.postToConnection(params).promise();
     } catch (err) {
       if (err.statusCode === 410) {
         console.log("Found stale connection, deleting " + data.connectionId);
         await client
           .delete({
-            TableName: process.env.TABLE_NAME || "",
-            Key: { [process.env.TABLE_KEY || ""]: data.connectionId },
+            TableName: process.env.WEBSOCKET_TABLE || "",
+            Key: { [process.env.WEBSOCKET_TABLE_KEY || ""]: data.connectionId },
           })
           .promise();
       } else {
@@ -35,4 +32,6 @@ export async function handler(event: any): Promise<any> {
       }
     }
   }
+
 }
+

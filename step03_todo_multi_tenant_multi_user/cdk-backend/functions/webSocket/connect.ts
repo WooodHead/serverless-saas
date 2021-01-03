@@ -1,4 +1,4 @@
-import * as AWS from "aws-sdk";
+const AWS = require('aws-sdk');
 
 export async function handler(event: any): Promise<any> {
   console.log(`onConnect ${JSON.stringify(event)}`);
