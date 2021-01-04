@@ -3,12 +3,12 @@
 
 const awsmobile = {
     "Auth": {
-        "region": "us-east-1",
-        "userPoolId": "us-east-1_7GgsWOrat",
-        "userPoolWebClientId": "1mp47uce7nl4can49hed1rqf3e",
+        "region": "ENTER REGION",
+        "userPoolId": "ENTER USER POOL ID",
+        "userPoolWebClientId": "ENTER USER POOL CLIENT ID",
     },
-    "aws_project_region": "us-east-1",
-    "aws_appsync_region": "us-east-1",
+    "aws_project_region": "ENTER REGION",
+    "aws_appsync_region": "ENTER REGION",
     //"aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS"
 };
 
