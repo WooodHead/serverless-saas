@@ -18,7 +18,8 @@ function Chatroom(props: any) {
     const [authState, setAuthState] = useState<AuthState>();
     const [user, setUser] = useState<any>();
     const [tenantInfo, setTenantInfo] = useState<tenant | null | undefined>(null)
-    const [loading, setLoading] = useState(true)
+    const [loadingTenantInfo, setLoadingTenantInfo] = useState(true)
+    const [loadingSocket,setLoadingSocket] = useState(true)
     const [error, setError] = useState<string>()
 
     const URLTenantOnboarding = endpoints.URLTenantOnboarding
@@ -47,7 +48,7 @@ function Chatroom(props: any) {
             const verified = data.data.data.find(verifyAuth)
 
             setTenantInfo(verified)
-            setLoading(false)
+            setLoadingTenantInfo(false)
 
             console.log(data)
         } catch (e) {
@@ -73,37 +74,38 @@ function Chatroom(props: any) {
 
 
     useEffect(() => {
-        if (!tenantInfo && !loading) {
+        if (!tenantInfo && !loadingTenantInfo) {
             setError("Either this workspace doesn't exist or you are not allowed to access it!")
-
+            setLoadingSocket(false)
         }
 
-    }, [loading])
+    }, [loadingTenantInfo])
 
 
 
-    useEffect(() => {
-        const notification = window.Notification;
-        var permission = notification.permission;
+    // useEffect(() => {
+    //     const notification = window.Notification;
+    //     var permission = notification.permission;
     
-        if (permission === "denied" || permission === "granted") {
-          return;
-        }
+    //     if (permission === "denied" || permission === "granted") {
+    //       return;
+    //     }
     
-        Notification.requestPermission();
-      },[]);
+    //     Notification.requestPermission();
+    //   },[]);
     
       useEffect(() => {
       
         if (tenantInfo){
 
         const socket = new WebSocket(
-            "wss://75fkxx4wfk.execute-api.us-east-1.amazonaws.com/dev/"
+            endpoints.URLWebsocket
           )
 
         socket.onopen = (event) => {
             socket.send(tenantInfo.name)
           console.log("onopen", event);
+          setLoadingSocket(false)
         };
 
         socket.onmessage = (event) => {
@@ -129,7 +131,7 @@ function Chatroom(props: any) {
     return authState === AuthState.SignedIn && user ? (
         <div className="App">
 
-            {!!loading ? <div>Loading...</div> :
+            {(loadingTenantInfo || loadingSocket) ? <div>Loading...</div> :
 
                 !!error ? <div>{error}</div> :
 

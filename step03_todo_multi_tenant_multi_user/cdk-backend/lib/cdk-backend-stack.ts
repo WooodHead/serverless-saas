@@ -97,18 +97,8 @@ export class CdkBackendStack extends cdk.Stack {
 
 
 
-    const connectLambda = new lambda.Function(this, "web-socket-connect", {
-      code: new lambda.AssetCode("functions/webSocket"),
-      handler: "connect.handler",
-      runtime: lambda.Runtime.NODEJS_12_X,
-      environment: {
-        TABLE_NAME: webSocketConnectionStorage.tableName,
-        TABLE_KEY: "connectionId",
-      },
-    });
 
     // Write permission to Dynamo
-    webSocketConnectionStorage.grantWriteData(connectLambda);
 
 
     const disconnectLambda = new lambda.Function(
@@ -162,7 +152,7 @@ export class CdkBackendStack extends cdk.Stack {
 
     const policy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      resources: [connectLambda.functionArn, disconnectLambda.functionArn, recieveMessageLambda.functionArn],
+      resources: [ disconnectLambda.functionArn, recieveMessageLambda.functionArn],
       actions: ["lambda:InvokeFunction"],
     });
 
@@ -199,28 +189,6 @@ export class CdkBackendStack extends cdk.Stack {
 
 
 
-
-
-
-    const integrationConnect = new apigatewayv2.CfnIntegration(
-      this,
-      `Connect-lambda-integration`,
-      {
-        apiId: apiWebsocket.ref,
-        integrationType: "AWS_PROXY",
-        integrationUri: `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${connectLambda.functionArn}/invocations`,
-        credentialsArn: role.roleArn,
-      }
-    );
-
-    const routeConnect = new apigatewayv2.CfnRoute(this, `Connect-route`, {
-      apiId: apiWebsocket.ref,
-      routeKey: "$connect",
-      authorizationType: "NONE",
-      target: "integrations/" + integrationConnect.ref,
-    });
-
-
     const integrationDisconnect = new apigatewayv2.CfnIntegration(
       this,
       `Disconnect-lambda-integration`,
@@ -249,7 +217,6 @@ export class CdkBackendStack extends cdk.Stack {
       }
     );
     deployment.addDependsOn(apiWebsocket);
-    deployment.addDependsOn(routeConnect);
     deployment.addDependsOn(routeDisconnect);
     deployment.addDependsOn(routeRecieveMessage);
 
