@@ -18,13 +18,21 @@ interface props {
         desc: string
     }
     username: string
+    todos: todo[]
+    setTodos: React.Dispatch<React.SetStateAction<todo[]>>
+
 }
 
 function TodoList(props: props) {
-    const [todos, setTodos] = useState<todo[]>()
+    //const [todos, setTodos] = useState<todo[]>()
     const todoTitleRef = useRef<any>("")
 
     const URLTodos = endpoints.URLTodos;
+
+
+
+
+    
 
 
     const addTodo = async () => {
@@ -40,7 +48,6 @@ function TodoList(props: props) {
                 headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
             })
 
-            getTodos()
             console.log(data)
             todoTitleRef.current.value = "";
         } catch (e) {
@@ -62,7 +69,7 @@ function TodoList(props: props) {
                 headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
             })
 
-            setTodos(data.data)
+            props.setTodos(data.data)
             console.log(data)
         } catch (e) {
             console.log(e)
@@ -82,7 +89,6 @@ function TodoList(props: props) {
             })
 
             console.log(data)
-            getTodos()
         } catch (e) {
             console.log(e)
         }
@@ -94,7 +100,7 @@ function TodoList(props: props) {
         getTodos()
     }, [])
 
-    return todos ?
+    return props.todos ?
         <div>
 
             <label>
@@ -105,7 +111,7 @@ function TodoList(props: props) {
             <button onClick={() => addTodo()}>Create</button>
 
             <ul>
-                {todos.map((todo, ind) =>
+                {props.todos.map((todo, ind) =>
                     <li key={ind}>{todo.title} <button onClick={() => deleteTodo(todo.id)}>Delete</button></li>
 
                 )}

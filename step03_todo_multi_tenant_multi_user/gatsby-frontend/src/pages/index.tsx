@@ -128,7 +128,7 @@ const AuthStateApp: React.FunctionComponent = () => {
               return (<li key={ind}>
                 <a href={`${location.href}workspace/${tenant.name}`} target="_blank" >
                   {tenantFiltered}
-                </a>, admin: {tenant.desc} <button onClick={() => deleteTenant(tenant.name)}>Delete</button></li>)
+                </a>, admin: {tenant.desc} {tenant.desc === user.username && <button onClick={() => deleteTenant(tenant.name)}>Delete</button>}</li>)
             })}
           </ul>
         </div>

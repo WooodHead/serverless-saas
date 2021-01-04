@@ -13,6 +13,14 @@ type tenant = {
     desc: string
 }
 
+type todo = {
+    createdAt: string,
+    done: boolean,
+    id: string,
+    tenantId: string,
+    title: string,
+    username: string
+}
 
 function Chatroom(props: any) {
     const [authState, setAuthState] = useState<AuthState>();
@@ -21,6 +29,10 @@ function Chatroom(props: any) {
     const [loadingTenantInfo, setLoadingTenantInfo] = useState(true)
     const [loadingSocket,setLoadingSocket] = useState(true)
     const [error, setError] = useState<string>()
+    const [todos,setTodos] = useState<todo[]>()
+    const [tenantUsers,setTenantUsers] = useState<string[]>()
+
+
 
     const URLTenantOnboarding = endpoints.URLTenantOnboarding
 
@@ -98,9 +110,9 @@ function Chatroom(props: any) {
       
         if (tenantInfo){
 
-        const socket = new WebSocket(
-            endpoints.URLWebsocket
-          )
+      const socket = new WebSocket(
+    endpoints.URLWebsocket
+  )
 
         socket.onopen = (event) => {
             socket.send(tenantInfo.name)
@@ -108,9 +120,53 @@ function Chatroom(props: any) {
           setLoadingSocket(false)
         };
 
-        socket.onmessage = (event) => {
+        socket.onmessage = (event:any) => {
           console.log("onmessage", event);
-          new Notification(event.data);
+          console.log(JSON.parse(event.data))
+
+          const data = JSON.parse(event.data)
+    
+          if (!!data.addTodo){
+                setTodos((todos)=>{return([...todos, data.addTodo.todoItem])})
+          }
+
+          if (!!data.deleteTodo){
+              setTodos((todos)=>{return(todos.filter((todo)=> todo.id!== data.deleteTodo.id))})
+          }
+
+          if (!!data.AddUser){
+
+            setTenantUsers((users)=>{
+
+
+                if (users.includes(data.AddUser.username)){
+                    alert("THIS USER IS ALREADY IN YOUR TENANT")
+                    return users
+                }
+    
+                else{
+
+                    return [...users, data.AddUser.username]
+                }
+    
+            
+
+            })
+           
+
+        
+        }
+
+
+        if (!!data.removeUser){
+
+            setTenantUsers((users)=> users.filter((user)=> user !== data.removeUser.username))
+           
+
+        
+        }
+
+
         };
     
         socket.onclose = (event) => {
@@ -126,6 +182,7 @@ function Chatroom(props: any) {
 
 
 
+      console.log("TODO",todos)
 
 
     return authState === AuthState.SignedIn && user ? (
@@ -138,11 +195,11 @@ function Chatroom(props: any) {
                     <div>
                         <h2>Todo List - {tenantInfo.name.slice(tenantInfo.name.indexOf("_")).replace(/_/g, " ")}</h2>
 
-                        <TodoList tenantInfo={tenantInfo} username={user.username} />
+                        <TodoList tenantInfo={tenantInfo} username={user.username} todos = {todos} setTodos = {setTodos} />
 
                         <h2>Users List</h2>
 
-                        <UsersList tenantInfo={tenantInfo} username={user.username} />
+                        <UsersList tenantInfo={tenantInfo} username={user.username} tenantUsers = {tenantUsers} setTenantUsers = {setTenantUsers} />
 
                     </div>
 

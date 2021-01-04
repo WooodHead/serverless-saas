@@ -16,7 +16,7 @@ async function getTodos(getTodosInput: getTodosInput) {
             KeyConditionExpression: `tenantId = :tenantId`,
             IndexName: 'todos-by-tenant-id',
             // NextToken: !!event.arguments.nextToken?event.arguments.nextToken : null ,
-            ScanIndexForward: false,
+            ScanIndexForward: true,
             Select: "ALL_ATTRIBUTES"
         }
         try {
