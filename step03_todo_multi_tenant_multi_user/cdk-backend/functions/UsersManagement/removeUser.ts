@@ -21,8 +21,8 @@ async function addUser(removeUserInput: removeUserInput) {
         try {
             const data = await cognitoidentityserviceprovider.adminRemoveUserFromGroup(paramsRemoveUser).promise()
             console.log(data)
-            await webSocketPublisher.publish(JSON.stringify({ operation: "REMOVE_USER", tenantId: removeUserInput.tenantId, username: removeUserInput.username }))
-            return { operation: "REMOVE_USER", tenantId: removeUserInput.tenantId, username: removeUserInput.username };
+            await webSocketPublisher.publish(JSON.stringify({removeUser:{ tenantId: removeUserInput.tenantId, username: removeUserInput.username }}),removeUserInput.tenantId)
+            return {removeUser:{ tenantId: removeUserInput.tenantId, username: removeUserInput.username} };
 
         } catch (err) {
             console.log('DynamoDB error: ', err);

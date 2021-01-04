@@ -1,5 +1,6 @@
 import addUser from './addUser';
 import removeUser from './removeUser';
+import listUsers from './listUsers';
 
 exports.handler = async (event: any) => {
     console.log(event);
@@ -32,6 +33,19 @@ exports.handler = async (event: any) => {
                     'Access-Control-Allow-Origin': '*'
                 },
                 body: JSON.stringify(user)
+            };
+        }
+
+        else if (method === "POST" && requestName === "listUsers") {
+
+            const users = await listUsers(body);
+            return {
+                statusCode: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(users)
             };
         }
 

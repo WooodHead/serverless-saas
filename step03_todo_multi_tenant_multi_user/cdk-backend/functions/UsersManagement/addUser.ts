@@ -20,8 +20,8 @@ async function addUser(addUserInput: addUserInput) {
         try {
             const data = await cognitoidentityserviceprovider.adminAddUserToGroup(paramsAddUser).promise()
             console.log(data)
-            await webSocketPublisher.publish(JSON.stringify({ operation: "ADD_USER", tenantId: addUserInput.tenantId, username: addUserInput.username }))
-            return { operation: "ADD_USER", tenantId: addUserInput.tenantId, username: addUserInput.username };
+            await webSocketPublisher.publish(JSON.stringify({AddUser:{tenantId: addUserInput.tenantId, username: addUserInput.username }}),addUserInput.tenantId)
+            return { AddUser: {tenantId: addUserInput.tenantId, username: addUserInput.username }};
 
         } catch (err) {
             console.log('DynamoDB error: ', err);

@@ -3,93 +3,84 @@ import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import axios from 'axios';
 import { Auth } from "aws-amplify"
+import endpoints from '../config'
 
 
-export default function Home() {
+type tenantList = {
+  name: string,
+  desc: string
+}
 
 
+const AuthStateApp: React.FunctionComponent = () => {
   const [authState, setAuthState] = useState<AuthState>();
   const [user, setUser] = useState<any>();
- 
-  const socket = new WebSocket(
-    "test"
-  );
-  const URL = "test"
-  const URL1 = "test"
+  const [tenantList, setTenantList] = useState<tenantList[]>();
 
+  const tenantTitleRef = useRef<any>("")
 
-  const addTodo = async () => {
+  const URLTenantOnboarding = endpoints.URLTenantOnboarding
+
+  const addTenant = async () => {
     try {
-        const input = {
-            title: "test",
-            done: false,
-            tenantId: "test",
-            username: "test",
-        }
 
-        const data = await axios.post(`${URL}/addTodo`, input, {
-            headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
-        })
+      const tenantName = tenantTitleRef.current.value.replace(/ /g, "_");
 
-        
-        console.log(data)
+      const input = {
+        tenantName: tenantName,
+        tenantAdmin: user.username
+      }
+
+      const data = await axios.post(`${URLTenantOnboarding}/addTenant`, input, {
+        headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+      })
+
+      console.log(data)
+      tenantTitleRef.current.value = ""
+      getTenants()
+    } catch (e) {
+      console.log(e)
+      tenantTitleRef.current.value = ""
+    }
+  }
+
+  const getTenants = async () => {
+    try {
+
+      const input = {
+        username: user.username
+      }
+
+      const data = await axios.post(`${URLTenantOnboarding}/fetchTenants`, input, {
+        headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+      })
+
+      setTenantList(data.data.data)
+      console.log(data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const deleteTenant = async (tenantId) => {
+    try {
+
+      const input = {
+        tenantId: tenantId
+      }
+
+      const data = await axios.post(`${URLTenantOnboarding}/deleteTenant`, input, {
+        headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+      })
+
+      console.log(data)
+      getTenants()
 
     } catch (e) {
-        console.log(e)
-        console.log(e.response)
-        console.log(e.request)
-
+      console.log(e)
     }
-}
-
-
-const addUser = async () => {
-  try {
-      const input = {
-          tenantId: "test",
-          username: "test",
-          tenantAdmin: "test",
-      }
-
-      const data = await axios.post(`${URL1}/addUser`, input, {
-          headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
-      })
-
-      
-      console.log(data)
-
-  } catch (e) {
-      console.log(e)
-      console.log(e.response)
-      console.log(e.request)
-
   }
-}
 
-
-
-const removeUser = async () => {
-  try {
-      const input = {
-          tenantId: "test",
-          username: "test",
-          tenantAdmin: "test",
-      }
-
-      const data = await axios.post(`${URL1}/removeUser`, input, {
-          headers: { 'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
-      })
-
-      
-      console.log(data)
-
-  } catch (e) {
-      console.log(e)
-      console.log(e.response)
-      console.log(e.request)
-
-  }
-}
 
 
   useEffect(() => {
@@ -99,48 +90,59 @@ const removeUser = async () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    const notification = window.Notification;
-    var permission = notification.permission;
 
-    if (permission === "denied" || permission === "granted") {
-      return;
+
+  useEffect(() => {
+
+    if (authState === AuthState.SignedIn && user) {
+      getTenants()
     }
+    else {
+      setTenantList(undefined)
+    }
+  }, [user]);
 
-    Notification.requestPermission();
-  });
-
-  React.useEffect(() => {
-    socket.onopen = (event) => {
-      console.log("onopen", event);
-    };
-
-    socket.onmessage = (event) => {
-      console.log("onmessgae", event);
-      new Notification(event.data);
-    };
-
-    socket.onclose = (event) => {
-      console.log("onclose", event);
-    };
-
-    return () => {
-      socket.close();
-    };
-  });
 
 
   return authState === AuthState.SignedIn && user ? (
-    <div>
-    <h1>{user.username}</h1>
-    <button onClick = {()=>addTodo()} >addTodo</button>
-    <button onClick = {()=>addUser()} >addUser</button>
-    <button onClick = {()=>removeUser()} >removeUser</button>
+    <div className="App">
+
+      <h1>Hello, {user.username}. Welcome to the Todo Application  </h1>
 
 
-        <AmplifySignOut />
+      <label>
+        Add a Todo List
+        <input size={100} ref={tenantTitleRef} type="text" placeholder="enter the title of your todo list"></input>
+      </label>
+      <button onClick={() => addTenant()}>Create</button>
+
+      <h3>My Todo Lists</h3>
+
+      {tenantList &&
+        <div>
+          <ul>
+            {tenantList.map((tenant, ind) => {
+
+              const tenantFiltered = tenant.name.slice(tenant.name.indexOf("_")).replace(/_/g, " ");
+
+              return (<li key={ind}>
+                <a href={`${location.href}workspace/${tenant.name}`} target="_blank" >
+                  {tenantFiltered}
+                </a>, admin: {tenant.desc} <button onClick={() => deleteTenant(tenant.name)}>Delete</button></li>)
+            })}
+          </ul>
         </div>
+      }
+
+      <div style={{ width: 200 }}>
+        <AmplifySignOut />
+      </div>
+
+    </div>
   ) : (
       <AmplifyAuthenticator />
     );
 }
+
+export default AuthStateApp;
+

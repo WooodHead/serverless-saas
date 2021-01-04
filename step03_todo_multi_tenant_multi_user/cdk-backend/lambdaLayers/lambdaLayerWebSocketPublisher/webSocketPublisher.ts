@@ -1,13 +1,23 @@
 var AWS = require('aws-sdk');
 
-exports.publish = async (input: string) => {
+exports.publish = async (input: string, tenantId: string) => {
 
   const endpoint = process.env.WEBSOCKET_ENDPOINT
   const apiGateway = new AWS.ApiGatewayManagementApi({ endpoint });
   const client = new AWS.DynamoDB.DocumentClient();
 
+
+  const params = {
+    TableName: process.env.WEBSOCKET_TABLE,
+    ExpressionAttributeValues: { ":tenantId": tenantId },
+    KeyConditionExpression: `tenantId = :tenantId`,
+    IndexName: 'connections-by-tenant-id',
+    // NextToken: !!event.arguments.nextToken?event.arguments.nextToken : null ,
+    Select: "ALL_ATTRIBUTES"
+}
+
   const result = await client
-    .scan({ TableName: process.env.WEBSOCKET_TABLE || "" })
+    .query(params)
     .promise();
 
   for (const data of result.Items ?? []) {

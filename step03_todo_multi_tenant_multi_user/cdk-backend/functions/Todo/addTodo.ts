@@ -20,7 +20,7 @@ async function addTodo(todoInput: addTodoInput) {
         }
         try {
             await docClient.put(params).promise();
-            await webSocketPublisher.publish(JSON.stringify(todoItem))
+            await webSocketPublisher.publish(JSON.stringify({addTodo:{todoItem}}), todoInput.tenantId)
             return todoItem;
 
         } catch (err) {

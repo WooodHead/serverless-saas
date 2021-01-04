@@ -11,4 +11,9 @@ export type removeUserInput = {
 }
 
 
+export type listUsersInput = {
+    tenantId: string;
+    username: string;
+}
+
 

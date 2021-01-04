@@ -4,7 +4,6 @@ import * as lambda from "@aws-cdk/aws-lambda";
 import * as cognito from "@aws-cdk/aws-cognito";
 import * as apigw from "@aws-cdk/aws-apigateway";
 import * as iam from '@aws-cdk/aws-iam';
-import * as s3 from "@aws-cdk/aws-s3"
 import * as apigatewayv2 from "@aws-cdk/aws-apigatewayv2"
 
 
@@ -74,6 +73,15 @@ export class CdkBackendStack extends cdk.Stack {
 
 
 
+    webSocketConnectionStorage.addGlobalSecondaryIndex({
+      indexName: 'connections-by-tenant-id',
+      partitionKey: {
+        name: 'tenantId',
+        type: ddb.AttributeType.STRING
+      }
+    })
+
+
     // API Gateway for Web Sockets
     const apiWebsocket = new apigatewayv2.CfnApi(this, "web-socket-api", {
       name: "WebSocketApi",
@@ -124,9 +132,37 @@ export class CdkBackendStack extends cdk.Stack {
 
 
 
+
+
+    const recieveMessageLambda = new lambda.Function(this, "web-socket-recieveMessageLambda", {
+      code: new lambda.AssetCode("functions/webSocket"),
+      handler: "recieveMessage.handler",
+      runtime: lambda.Runtime.NODEJS_12_X,
+      environment: {
+        TABLE_NAME: webSocketConnectionStorage.tableName,
+        TABLE_KEY: "connectionId",
+      },
+    });
+
+    // Write permission to Dynamo
+    webSocketConnectionStorage.grantWriteData(recieveMessageLambda);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const policy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      resources: [connectLambda.functionArn, disconnectLambda.functionArn],
+      resources: [connectLambda.functionArn, disconnectLambda.functionArn, recieveMessageLambda.functionArn],
       actions: ["lambda:InvokeFunction"],
     });
 
@@ -134,6 +170,36 @@ export class CdkBackendStack extends cdk.Stack {
       assumedBy: new iam.ServicePrincipal("apigateway.amazonaws.com"),
     });
     role.addToPolicy(policy);
+
+
+
+
+
+
+
+    const integrationRecieveMessage = new apigatewayv2.CfnIntegration(
+      this,
+      `RecieveMessage-lambda-integration`,
+      {
+        apiId: apiWebsocket.ref,
+        integrationType: "AWS_PROXY",
+        integrationUri: `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${recieveMessageLambda.functionArn}/invocations`,
+        credentialsArn: role.roleArn,
+      }
+    );
+
+    const routeRecieveMessage = new apigatewayv2.CfnRoute(this, `recieveMessage-route`, {
+      apiId: apiWebsocket.ref,
+      routeKey: "$default",
+      authorizationType: "NONE",
+      target: "integrations/" + integrationRecieveMessage.ref,
+    });
+
+
+
+
+
+
 
 
     const integrationConnect = new apigatewayv2.CfnIntegration(
@@ -185,6 +251,9 @@ export class CdkBackendStack extends cdk.Stack {
     deployment.addDependsOn(apiWebsocket);
     deployment.addDependsOn(routeConnect);
     deployment.addDependsOn(routeDisconnect);
+    deployment.addDependsOn(routeRecieveMessage);
+
+
 
     const stage = new apigatewayv2.CfnStage(this, `${apiWebsocket.name}-stage`, {
       apiId: apiWebsocket.ref,
@@ -398,13 +467,13 @@ export class CdkBackendStack extends cdk.Stack {
         WEBSOCKET_TABLE_KEY: "connectionId",
 
       },
-      layers: [lambdaLayerVerifyTenantAdmin, lambdaLayerWebSocketPublisher]
+      layers: [lambdaLayerVerifyTenantAdmin, lambdaLayerWebSocketPublisher, lambdaLayerVerifyTenant]
 
     });
 
     usersManagementLambda.addToRolePolicy(new iam.PolicyStatement({
       resources: ["*"],
-      actions: ["cognito-idp:AdminAddUserToGroup*", "cognito-idp:AdminRemoveUserFromGroup*", "cognito-idp:GetGroup*", "dynamodb:*", "execute-api:ManageConnections"]
+      actions: ["cognito-idp:AdminAddUserToGroup*", "cognito-idp:AdminRemoveUserFromGroup*", "cognito-idp:GetGroup*", "dynamodb:*", "execute-api:ManageConnections", "cognito-idp:AdminListGroupsForUser*", "cognito-idp:ListUsersInGroup*"]
     }))
 
     const apiUsersManagement = new apigw.LambdaRestApi(this, "UsersManagementApiEndpoint", {
@@ -443,6 +512,13 @@ export class CdkBackendStack extends cdk.Stack {
     })
 
 
+    const listUsers = apiUsersManagement.root.addResource('listUsers');
+    listUsers.addMethod('POST', new apigw.LambdaIntegration(usersManagementLambda), {
+      authorizationType: apigw.AuthorizationType.COGNITO,
+      authorizer: {
+        authorizerId: authorizerUsersManagement.ref
+      }
+    })
 
 
 

@@ -19,7 +19,7 @@ async function deleteTodo(deleteTodoInput: deleteTodoInput) {
         }
         try {
             await docClient.delete(params).promise()
-            await webSocketPublisher.publish(JSON.stringify({ id: deleteTodoInput.todoId }))
+            await webSocketPublisher.publish(JSON.stringify({deleteTodo:{ id: deleteTodoInput.todoId }}), deleteTodoInput.tenantId)
             return deleteTodoInput.todoId
         } catch (err) {
             console.log('DynamoDB error: ', err)
